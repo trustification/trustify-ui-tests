@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "codegen": "npx playwright codegen http://localhost:8080/",
+    "test": "npx playwright test --ui --trace on"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
