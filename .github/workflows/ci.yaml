@@ -1,0 +1,22 @@
+name: CI (repo level)
+
+on:
+  push:
+    branches:
+      - main
+      - "release-*"
+  pull_request:
+    branches:
+      - main
+      - "release-*"
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  build:
+    name: Prettier
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - run: npm ci .
+      - run: npm run check
