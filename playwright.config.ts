@@ -7,7 +7,10 @@ import { defineConfig, devices } from "@playwright/test";
 // import dotenv from 'dotenv';
 // dotenv.config({ path: path.resolve(__dirname, '.env') });
 
-const DESKTOP_VIEWPORT = { height: 961, width: 1920 };
+const DESKTOP_CONFIG = {
+  viewport: { height: 961, width: 1920 },
+  ignoreHTTPSErrors: true,
+};
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -39,7 +42,7 @@ export default defineConfig({
       name: "chromium",
       use: {
         ...devices["Desktop Chrome"],
-        viewport: { ...DESKTOP_VIEWPORT },
+        ...DESKTOP_CONFIG,
       },
     },
 
@@ -47,7 +50,7 @@ export default defineConfig({
       name: "firefox",
       use: {
         ...devices["Desktop Firefox"],
-        viewport: { ...DESKTOP_VIEWPORT },
+        ...DESKTOP_CONFIG,
       },
     },
 
@@ -55,7 +58,7 @@ export default defineConfig({
       name: "webkit",
       use: {
         ...devices["Desktop Safari"],
-        viewport: { ...DESKTOP_VIEWPORT },
+        ...DESKTOP_CONFIG,
       },
     },
 
