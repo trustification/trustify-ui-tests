@@ -44,6 +44,7 @@ export default defineConfig({
         ...devices["Desktop Chrome"],
         ...DESKTOP_CONFIG,
       },
+      dependencies: ["setup-data"],
     },
 
     {
@@ -52,6 +53,7 @@ export default defineConfig({
         ...devices["Desktop Firefox"],
         ...DESKTOP_CONFIG,
       },
+      dependencies: ["setup-data"],
     },
 
     {
@@ -60,6 +62,17 @@ export default defineConfig({
         ...devices["Desktop Safari"],
         ...DESKTOP_CONFIG,
       },
+      dependencies: ["setup-data"],
+    },
+
+    {
+      name: "setup-data",
+      testMatch: /global\.setup\.ts/,
+      teardown: "cleanup-data",
+    },
+    {
+      name: "cleanup-data",
+      testMatch: /global\.teardown\.ts/,
     },
 
     /* Test against mobile viewports. */
