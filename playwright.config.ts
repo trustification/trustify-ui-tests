@@ -69,10 +69,16 @@ export default defineConfig({
       name: "setup-data",
       testMatch: /global\.setup\.ts/,
       teardown: "cleanup-data",
+      use: {
+        ...DESKTOP_CONFIG,
+      },
     },
     {
       name: "cleanup-data",
       testMatch: /global\.teardown\.ts/,
+      use: {
+        ...DESKTOP_CONFIG,
+      },
     },
 
     /* Test against mobile viewports. */
