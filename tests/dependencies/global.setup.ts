@@ -28,7 +28,9 @@ test.describe("Ingest initial data", () => {
     // Assert
     await expect(
       page.locator(".pf-v5-c-expandable-section__toggle-text")
-    ).toContainText("6 of 6 files uploaded", { timeout: 60_000 });
+    ).toContainText(`${files.length} of ${files.length} files uploaded`, {
+      timeout: 60_000,
+    });
   });
 
   test("Advisories", async ({ page, baseURL }) => {
@@ -80,6 +82,8 @@ test.describe("Ingest initial data", () => {
     // Assert
     await expect(
       page.locator(".pf-v5-c-expandable-section__toggle-text")
-    ).toContainText("29 of 29 files uploaded", { timeout: 60_000 });
+    ).toContainText(`${files.length} of ${files.length} files uploaded`, {
+      timeout: 60_000,
+    });
   });
 });
