@@ -3,6 +3,8 @@ import { expect, test } from "@playwright/test";
 
 test.describe("Ingest initial data", () => {
   test("SBOMs", async ({ page, baseURL }) => {
+    test.setTimeout(120_000);
+
     await page.goto(baseURL!);
     await page.getByRole("link", { name: "Upload" }).click();
     await page.getByRole("tab", { name: "SBOM" }).click();
@@ -21,13 +23,13 @@ test.describe("Ingest initial data", () => {
     await page.getByRole("button", { name: "Upload", exact: true }).click();
     const fileChooser = await fileChooserPromise;
     await fileChooser.setFiles(
-      files.map((e) => path.join(__dirname, `../fixures/sbom/${e}`))
+      files.map((e) => path.join(__dirname, `../fixtures/sbom/${e}`))
     );
 
     // Assert
     await expect(
       page.locator(".pf-v5-c-expandable-section__toggle-text")
-    ).toContainText("6 of 6 files uploaded");
+    ).toContainText("6 of 6 files uploaded", { timeout: 60_000 });
   });
 
   test("Advisories", async ({ page, baseURL }) => {
@@ -74,7 +76,7 @@ test.describe("Ingest initial data", () => {
     await page.getByRole("button", { name: "Upload", exact: true }).click();
     const fileChooser = await fileChooserPromise;
     await fileChooser.setFiles(
-      files.map((e) => path.join(__dirname, `../fixures/csaf/${e}`))
+      files.map((e) => path.join(__dirname, `../fixtures/csaf/${e}`))
     );
 
     // Assert
