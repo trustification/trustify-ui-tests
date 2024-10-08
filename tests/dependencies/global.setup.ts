@@ -3,13 +3,12 @@ import { expect, test } from "@playwright/test";
 
 test.describe("Ingest initial data", () => {
   test("SBOMs", async ({ page, baseURL }) => {
-    test.setTimeout(120_000);
-
     await page.goto(baseURL!);
     await page.getByRole("link", { name: "Upload" }).click();
     await page.getByRole("tab", { name: "SBOM" }).click();
 
     // Choose files
+    test.setTimeout(120_000);
     const files = [
       "quarkus-bom-2.13.8.Final-redhat-00004.json",
       "ubi8_ubi-micro-8.8-7.1696517612.json",
@@ -33,13 +32,12 @@ test.describe("Ingest initial data", () => {
   });
 
   test("Advisories", async ({ page, baseURL }) => {
-    test.setTimeout(120_000);
-
     await page.goto(baseURL!);
     await page.getByRole("link", { name: "Upload" }).click();
     await page.getByRole("tab", { name: "Advisory" }).click();
 
     // Choose files
+    test.setTimeout(120_000);
     const files = [
       "cve-2022-45787.json",
       "cve-2023-20861.json",
