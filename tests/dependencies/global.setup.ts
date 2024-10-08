@@ -64,7 +64,7 @@ test.describe("Ingest initial data", () => {
       "cve-2023-34455.json.bz2",
       "cve-2023-1584.json.bz2",
       "cve-2023-26464.json.bz2",
-      "cve-2023-44487.json.bz2",
+      // "cve-2023-44487.json.bz2", // HTTP 413 error: file to big to be uploaded
       "cve-2023-1664.json.bz2",
       "cve-2023-2798.json.bz2",
       "cve-2023-4853.json.bz2",
