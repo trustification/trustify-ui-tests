@@ -44,6 +44,7 @@ export default defineConfig({
         ...devices["Desktop Chrome"],
         ...DESKTOP_CONFIG,
       },
+      dependencies: ["setup-data"],
     },
 
     {
@@ -52,12 +53,30 @@ export default defineConfig({
         ...devices["Desktop Firefox"],
         ...DESKTOP_CONFIG,
       },
+      dependencies: ["setup-data"],
     },
 
     {
       name: "webkit",
       use: {
         ...devices["Desktop Safari"],
+        ...DESKTOP_CONFIG,
+      },
+      dependencies: ["setup-data"],
+    },
+
+    {
+      name: "setup-data",
+      testMatch: /global\.setup\.ts/,
+      teardown: "cleanup-data",
+      use: {
+        ...DESKTOP_CONFIG,
+      },
+    },
+    {
+      name: "cleanup-data",
+      testMatch: /global\.teardown\.ts/,
+      use: {
         ...DESKTOP_CONFIG,
       },
     },
