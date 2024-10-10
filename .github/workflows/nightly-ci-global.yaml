@@ -1,4 +1,4 @@
-name: Nightly CI (repo level @main)
+name: Nightly CI (global trustify CI @main)
 
 on:
   schedule:
