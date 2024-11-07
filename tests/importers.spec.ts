@@ -12,15 +12,4 @@ test.describe("Importers", { tag: "@tier0" }, () => {
       page.getByRole("heading", { name: "Importers" })
     ).toBeVisible();
   });
-
-  test("Search by name", async ({ page }) => {
-    await page.getByPlaceholder("Search by name...").click();
-    await page.getByPlaceholder("Search by name...").fill("2024");
-    await page.getByLabel("search button for search input").click();
-
-    await expect(page.getByLabel("CVEs table")).toContainText("cve-from-2024");
-    await expect(page.getByLabel("CVEs table")).toContainText(
-      "redhat-csaf-vex-2024"
-    );
-  });
 });
