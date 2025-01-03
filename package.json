@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "codegen": "npx playwright codegen http://localhost:8080/",
-    "test": "npx playwright test --ui --trace on",
+    "codegen": "npx playwright codegen",
+    "test": "npx playwright test",
+    "ui": "npx playwright test --ui --trace on",
+    "ui-host": "npx playwright test --ui-host=0.0.0.0 --trace on",
     "check": "prettier --check './**/*.{ts,js,json}'",
     "format": "prettier --write './**/*.{ts,js,json}'"
   },
@@ -13,7 +15,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.45.3",
+    "@playwright/test": "^1.49.1",
     "@types/node": "^22.0.2",
     "prettier": "^3.3.3"
   }
