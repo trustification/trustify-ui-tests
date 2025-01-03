@@ -16,10 +16,7 @@
       "VNC_RESOLUTION": "1920x1200x16"
     }
   },
-  "forwardPorts": [
-    6080,
-    5901
-  ],
+  "forwardPorts": [6080, 5901],
   "portsAttributes": {
     "6080": {
       "label": "browser vnc"
