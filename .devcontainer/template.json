@@ -27,7 +27,6 @@
   },
   "onCreateCommand": "npx playwright install-deps && npx playwright install",
   "postCreateCommand": "npm ci",
-  "postStartCommand": "echo \"source /usr/share/bash-completion/completions/git\" >> ~/.bashrc",
   "customizations": {
     "vscode": {
       "extensions": [

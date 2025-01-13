@@ -14,6 +14,8 @@ Now you should see the file `.devcontainer/devcontainer.json`. At this point you
 
 Install the extension https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers
 
+To open the repository with DevContainers do `Ctrl + Shift + P` and enter `Dev Containers: Rebuild and Reopen in Container`. For more options see the Extension documentations.
+
 ### Docker
 
 Docker defaults should work fine therefore there is nothing to do.
