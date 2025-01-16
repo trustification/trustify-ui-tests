@@ -22,11 +22,6 @@ const DESKTOP_CONFIG = {
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  timeout: 30_000,
-  expect: {
-    timeout: 30_000,
-  },
-
   testDir,
   /* Run tests in files in parallel */
   fullyParallel: true,

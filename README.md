@@ -30,3 +30,10 @@ npx playwright test
 ```shell
 npm run test
 ```
+
+## Environment Variables
+
+| Variable              | Default Value         | Description                              |
+| --------------------- | --------------------- | ---------------------------------------- |
+| TRUSTIFY_URL          | http://localhost:8080 | The UI URL                               |
+| TRUSTIFY_AUTH_ENABLED | false                 | Whether or not auth is enabled in the UI |
