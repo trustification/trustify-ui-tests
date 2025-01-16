@@ -7,7 +7,7 @@
     "--privileged",
     "--userns=keep-id",
     "--network=host",
-    "--add-host=cferiavi-thinkpadp16vgen1.tpbc.csb:127.0.0.1",
+    "--add-host=${HOSTNAME}:127.0.0.1",
     "-e DISPLAY=:2"
   ],
   "remoteUser": "pwuser",
@@ -27,14 +27,12 @@
   },
   "onCreateCommand": "npx playwright install-deps && npx playwright install",
   "postCreateCommand": "npm ci",
-  "postStartCommand": "echo \"source /usr/share/bash-completion/completions/git\" >> ~/.bashrc",
   "customizations": {
     "vscode": {
       "extensions": [
         "k--kato.intellij-idea-keybindings",
         "vadimcn.vscode-lldb",
         "ms-playwright.playwright",
-        "alexkrechik.cucumberautocomplete",
         "github.vscode-pull-request-github",
         "GitHub.github-vscode-theme",
         "esbenp.prettier-vscode",

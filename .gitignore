@@ -3,4 +3,6 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+.devcontainer/devcontainer.json
 .features-gen/

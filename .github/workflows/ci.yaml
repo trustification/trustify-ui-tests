@@ -19,4 +19,4 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - run: npm ci .
-      - run: npm run check
+      - run: npm run format:check
