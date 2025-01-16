@@ -1,0 +1,46 @@
+{
+  "name": "trustify-ui-tests",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "runArgs": [
+    "--privileged",
+    "--userns=keep-id",
+    "--network=host",
+    "--add-host=cferiavi-thinkpadp16vgen1.tpbc.csb:127.0.0.1",
+    "-e DISPLAY=:2"
+  ],
+  "remoteUser": "pwuser",
+  "features": {
+    "ghcr.io/devcontainers/features/desktop-lite:1": {
+      "VNC_RESOLUTION": "1920x1200x16"
+    }
+  },
+  "forwardPorts": [6080, 5901],
+  "portsAttributes": {
+    "6080": {
+      "label": "browser vnc"
+    },
+    "5901": {
+      "label": "real vnc"
+    }
+  },
+  "onCreateCommand": "npx playwright install-deps && npx playwright install",
+  "postCreateCommand": "npm ci",
+  "postStartCommand": "echo \"source /usr/share/bash-completion/completions/git\" >> ~/.bashrc",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "k--kato.intellij-idea-keybindings",
+        "vadimcn.vscode-lldb",
+        "ms-playwright.playwright",
+        "alexkrechik.cucumberautocomplete",
+        "github.vscode-pull-request-github",
+        "GitHub.github-vscode-theme",
+        "esbenp.prettier-vscode",
+        "oderwat.indent-rainbow",
+        "eamodio.gitlens"
+      ]
+    }
+  }
+}

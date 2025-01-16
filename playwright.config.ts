@@ -1,4 +1,10 @@
 import { defineConfig, devices } from "@playwright/test";
+import { defineBddConfig } from "playwright-bdd";
+
+const testDir = defineBddConfig({
+  features: ["tests/features/**/*.feature"],
+  steps: ["tests/features/**/*.step.ts", "tests/steps/**/*.ts"],
+});
 
 /**
  * Read environment variables from file.
@@ -16,7 +22,12 @@ const DESKTOP_CONFIG = {
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: "./tests",
+  timeout: 30_000,
+  expect: {
+    timeout: 30_000,
+  },
+
+  testDir,
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
