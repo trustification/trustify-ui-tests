@@ -2,7 +2,7 @@ import { defineConfig, devices } from "@playwright/test";
 import { defineBddConfig } from "playwright-bdd";
 
 const testDir = defineBddConfig({
-  features: ["tests/features/**/*.feature"],
+  features: ["tests/features/@*/*.feature"],
   steps: ["tests/features/**/*.step.ts", "tests/steps/**/*.ts"],
 });
 
@@ -73,6 +73,7 @@ export default defineConfig({
 
     {
       name: "setup-data",
+      testDir: "./tests/dependencies",
       testMatch: /global\.setup\.ts/,
       teardown: "cleanup-data",
       use: {
@@ -81,6 +82,7 @@ export default defineConfig({
     },
     {
       name: "cleanup-data",
+      testDir: "./tests/dependencies",
       testMatch: /global\.teardown\.ts/,
       use: {
         ...DESKTOP_CONFIG,

@@ -4,5 +4,7 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 
+.idea/
+
 .devcontainer/devcontainer.json
 .features-gen/
