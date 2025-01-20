@@ -1,5 +1,9 @@
 # End-to-end tests for trustify-ui
 
+### Devcontainers
+
+Read our docs for [Devcontainers](./.devcontainer/README.md) if you would like to use it.
+
 ### Requirements
 
 - NodeJS 21
@@ -28,5 +32,5 @@ npx playwright test
 - Or if you prefer to run the tests and see the Playwright UI use:
 
 ```shell
-npm run test
+npx playwright test --ui
 ```
