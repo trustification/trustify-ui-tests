@@ -49,7 +49,6 @@ test.describe("Ingest initial data", () => {
 
     await uploadSboms(page, sbom_files);
     await uploadAdvisories(page, advisory_files);
-
   });
 });
 
