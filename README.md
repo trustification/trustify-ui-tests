@@ -37,3 +37,15 @@ npm run test
 | --------------------- | --------------------- | ---------------------------------------- |
 | TRUSTIFY_URL          | http://localhost:8080 | The UI URL                               |
 | TRUSTIFY_AUTH_ENABLED | false                 | Whether or not auth is enabled in the UI |
+
+## Available commands
+
+There are come preconfigured commands you can use:
+
+| Variable           | Description                                       |
+| ------------------ | ------------------------------------------------- |
+| npm run test       | Execute tests                                     |
+| npm run test:trace | Execute tests and take screenshots                |
+| npm run test:host  | Opens the Playwright UI in the browser of your OS |
+
+You can also execute any playwright or [playwright-bdd](https://vitalets.github.io/playwright-bdd) command directly in your terminal.
