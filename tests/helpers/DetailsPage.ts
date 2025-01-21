@@ -8,7 +8,9 @@ export class DetailsPage {
   }
 
   async selectTab(tabName: string) {
-    this.page.getByRole("tab", { name: tabName }).click();
+    const tab = this.page.locator("button[role='tab']", { hasText: tabName });
+    expect(tab).toBeVisible();
+    tab.click();
   }
 
   async verifyPageHeader(header: string) {
