@@ -4,10 +4,10 @@ Feature: Search
 
 Background:
 	Given User is using an instance of the TPA Application
-	When User has successfully uploaded an SBOM
-	When User has successfully uploaded a vulnerability dataset
-	When User has successfully uploaded an advisory dataset
-	When User is on the Search page
+	And User has successfully uploaded an SBOM
+	And User has successfully uploaded a vulnerability dataset
+	And User has successfully uploaded an advisory dataset
+	And User is on the Search page
 
 Scenario: User visits search page without filling anything
 	When user starts typing a "" in the search bar
