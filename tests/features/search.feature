@@ -51,7 +51,7 @@ Scenario: Autofill should not match any packages
 
 Scenario: Search bar should not preview anything when no matches are found 
 	When user starts typing a "non-existent name" in the search bar
-	Then the results should be limited to 5 suggestions
+	Then The autofill drop down should not show any values
 
 Scenario Outline: User searches for a specific <type> 
 	When user types a <type-name> in the search bar
