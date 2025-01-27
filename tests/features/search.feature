@@ -25,6 +25,18 @@ Scenario Outline: User toggles the <types> list and manipulates the list
 	And the <types> list should be limited to 10 items
 	And the user should be able to switch to next <types> items
 	And the user should be able to increase pagination for the <types>
+	And First column on the search results should have the link to <types> explorer pages
+
+Scenario Outline: Download Links on the <types> Search Result list
+	When User navigates to Search Results page
+	And Clicks on <types> tab
+	Then <types> list should be listed
+	And Download link should be available at the end of the rows
+	
+        Examples:
+	|types|
+	|SBOMs|
+	|Advisories|
 
 	Examples:
 	|types|
