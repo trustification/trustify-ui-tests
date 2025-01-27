@@ -18,7 +18,8 @@ Scenario: User visits search page without filling anything
 	And a total number of "Advisories" should be visible in the tab
 
 Scenario Outline: User toggles the <types> list and manipulates the list
-	When user toggles the <types> list
+	When User navigates to Search results page 
+	And user toggles the <types> list
 	Then the <types> list should have specific filter set
 	And the user should be able to filter <types>
 	And the <types> list should be sortable
