@@ -12,13 +12,13 @@ Scenario: Verify Download Licences option on SBOM Search Results page for Cyclon
 	Given User Searches for CycloneDX SBOM using Search Text box and Navigates to Search results page
 	When User Selects CycloneDX SBOM of interest from the Search Results
 	And User Clicks "Action" button
-	Then "Download Licences" Option should be visible
+	Then "Download License Report" Option should be visible
 
 Scenario: User Downloads license information for CycloneDX SBOM from SBOM Search Results page
 	Given User Searches for CycloneDX SBOM using Search Text box and Navigates to Search results page
 	When User Selects CycloneDX SBOM of interest from the Search Results
 	And User Clicks "Action" button
-	And Selects "Download Licences" option
+	And Selects "Download License Report" option
 	Then Licenses associated with the SBOM should be downloaded in ZIP format using the SBOM name
 
 Scenario: Verify Download Licences option on SBOM Explorer page for CycloneDX SBOM
@@ -26,11 +26,11 @@ Scenario: Verify Download Licences option on SBOM Explorer page for CycloneDX SB
 	When User Selects CycloneDX SBOM of interest from the Search Results
 	And User Clicks on SBOM name hyperlink from the Search Results
 	Then Application Navigates to SBOM Explorer page 
-	And "Download Licences" Option should be visible
+	And "Download License Report" Option should be visible
 
 Scenario: User Downloads license information for CycloneDX SBOM from SBOM Explorer page
 	Given User is on SBOM Explorer page for the CycloneDX SBOM
-	And User Clicks on "Download Licences" button
+	And User Clicks on "Download License Report" button
 	Then Licenses associated with the SBOM should be downloaded in ZIP format using the SBOM name
 
 Scenario: Verify the files on downloaded CycloneDX SBOM license ZIP
@@ -41,7 +41,7 @@ Scenario: Verify the files on downloaded CycloneDX SBOM license ZIP
 Scenario: Verify the headers on CycloneDX SBOM package License CSV file
 	Given User extracted the CycloneDX SBOM license compressed file
 	When User Opens the package license combination file
-	Then The file should have the following headers - name, namespace, group, version, package, reference license,license name and alternate package reference
+	Then The file should have the following headers - name, namespace, group, version, package reference, license, license name and alternate package reference
 
 Scenario: Verify the headers on CycloneDX SBOM License reference CSV file
 	Given User extracted the CycloneDX SBOM license compressed file
