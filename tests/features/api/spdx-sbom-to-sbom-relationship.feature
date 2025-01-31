@@ -1,14 +1,15 @@
 # This feature is described in these Jira and GitHub issue linked in the comments.
 #
-# https://issues.redhat.com/browse/TC-2048
+# https://issues.redhat.com/browse/TC-2049
 
-Feature: Denote CPE/pURL relationship between a product CycloneDX SBOM and a component CycloneDX SBOM
+Feature: Denote CPE/pURL relationship between a product SPDX SBOM and a component SPDX SBOM
     As a Devsecops Engineer
-    I want to display the relationship between a CycloneDX product SBOM and a CycloneDX component SBOM.
+    I want to display the relationship between a SPDX product SBOM and a SPDX component SBOM.
 
 Background:
     Given User is using an instance of the TPA Application.
 
+# Analysis of product SBOMs
 Scenario Outline: Analyzing a product SBOM with no component SBOM information
     Given User has ingested a product SBOM
     And User has not ingested any component SBOMs
@@ -74,6 +75,7 @@ Scenario Outline: Analyzing a product SBOM with complete component SBOM informat
         | query         | alias         |
         | query         | name          |
 
+# Analysis of component SBOMs
 # There is a question of if the component SBOM is supposed to have any information about a product SBOM
 Scenario Outline: Analyzing a component SBOM without product SBOM information
     Given User has ingested a component SBOM
@@ -118,6 +120,7 @@ Scenario Outline: Analyzing a component SBOM with product SBOM information
         | query         | alias         |
         | query         | name          |
 
+# Analysis of root components
 Scenario Outline: Analyzing the root component of a component SBOM with incomplete component SBOM information
     Given User has ingested a product SBOM
     And User has ingested some component SBOMs
@@ -163,6 +166,7 @@ Scenario Outline: Analyzing the root component of a component SBOM with complete
         | query         | alias         |
         | query         | name          |       
 
+# Analysis of dependencies
 Scenario Outline: Analyzing the dependencies of an SBOM with no component SBOM information
     Given User has ingested a product SBOM
     And User has not ingested any component SBOMs
