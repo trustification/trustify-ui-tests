@@ -41,7 +41,7 @@ Scenario: Verify the files on downloaded SPDX SBOM license ZIP
 Scenario: Verify the headers on SPDX SBOM package License CSV file
 	Given User extracted the SPDX SBOM license compressed file
 	When User Opens the package license information file
-	Then The file should have the following headers - name, namespace, group, version, package reference, license, license name, license expression and alternate package reference
+	Then The file should have the following headers - name, namespace, group, version, package reference, license id, license name, license expression and alternate package reference
 
 Scenario: Verify the headers on SPDX SBOM License reference CSV file
 	Given User extracted the SPDX SBOM license compressed file
@@ -49,63 +49,41 @@ Scenario: Verify the headers on SPDX SBOM License reference CSV file
 	Then The file should have the following headers - licenseId, name, extracted text and comment
 
 Scenario: Verify the license information for a package with single license
-	# Test data https://drive.google.com/drive/folders/1Z6y6gMegutBeUuc_8LkpYxKeGz_KYG9H?usp=drive_link
-	# sbom - rhoai-2.15.json package - pkg:rpm/redhat/popt@1.18-1.el8?arch=x86_64
 	Given User is on SBOM license information file
 	When User selects a package with Single license information
-	Then name column should contain the value of name field from SBOM json
-	And namespace column should contain the value of documentNamespace field from SBOM json
-	And group column should be empty
-	And version column should be empty
-	And package reference column should contain the value of packages.externalRefs.referenceLocator field for purl referenceType from SBOM json
-	And license column should be empty
-	And license name column should be empty
-	And license expression column should contain the value from licenseDeclared field of the SBOM json
-	And alternate package reference column should be empty
+	Then "name" column should match "name" from SBOM
+	And "namespace" column should match "documentNamespace" from SBOM
+	And "package reference" column should match "packages.externalRefs.referenceLocator" of "packages.externalRefs.referenceType" type purl from SBOM
+	And "license expression" column should match "packages.licenseDeclared" from SBOM
+	And The columns "group", "version", "license id", "license name", "alternate package reference" should be empty
 
 Scenario: Verify the license information for a package with single license with alternate package reference referenceLocator
-	# Test data https://drive.google.com/drive/folders/1Z6y6gMegutBeUuc_8LkpYxKeGz_KYG9H?usp=drive_link
-	# sbom - RHOSE-4.14.json package - pkg:rpm/redhat/skopeo@1.11.3-4.rhaos4.14.el9?arch=src&epoch=2
 	Given User is on SBOM license information file
 	When User selects a package with Single license information
-	Then name column should contain the value of name field from SBOM json
-	And namespace column should contain the value of documentNamespace field from SBOM json
-	And group column should be empty
-	And version column should be empty
-	And package reference column should contain the value of packages.externalRefs.referenceLocator field for purl referenceType from SBOM json
-	And license column should be empty
-	And license name column should be empty
-	And license expression column should contain the value from licenseDeclared field of the SBOM json
-	And alternate package reference column should contain the value of packages.externalRefs.referenceLocator field for cpe referenceType from SBOM json
+	Then "name" column should match "name" from SBOM
+	And "namespace" column should match "documentNamespace" from SBOM
+	And "package reference" column should match "packages.externalRefs.referenceLocator" of "packages.externalRefs.referenceType" purl from SBOM
+	And "license expression" column should match "packages.licenseDeclared" from SBOM
+	And "alternate package reference" column should match "packages.externalRefs.referenceLocator" of "packages.externalRefs.referenceType" type cpe from SBOM json
+	And The columns "group", "version", "license id", "license name" should be empty
 
 Scenario: Verify the license information for a package with multiple licenses with alternate package reference referenceLocator
-	# Test data https://drive.google.com/drive/folders/1Z6y6gMegutBeUuc_8LkpYxKeGz_KYG9H?usp=drive_link
-	# sbom - RHOSE-4.14.json package - pkg:rpm/redhat/NetworkManager@1.42.2-24.el9_2?arch=src&epoch=1
 	Given User is on SBOM license information file
-	When User selects a package with multiple licenses information
-	Then name column should contain the value of name field from SBOM json
-	And namespace column should contain the value of documentNamespace field from SBOM json
-	And group column should be empty
-	And version column should be empty
-	And package reference column should contain the value of packages.externalRefs.referenceLocator field for purl referenceType from SBOM json
-	And license column should be empty
-	And license name column should be empty
-	And license expression column should contain the whole value from licenseDeclared field of the SBOM json in a single row
-	And alternate package reference column should contain the value of packages.externalRefs.referenceLocator field for cpe referenceType from SBOM json
+	When User selects a package with Single license information
+	Then "name" column should match "name" from SBOM
+	And "namespace" column should match "documentNamespace" from SBOM
+	And "package reference" column should match "packages.externalRefs.referenceLocator" of "packages.externalRefs.referenceType" purl from SBOM
+	And "license expression" column should match the whole value of "packages.licenseDeclared" from SBOM in a single row
+	And "alternate package reference" column should match "packages.externalRefs.referenceLocator" of "packages.externalRefs.referenceType" type cpe from SBOM json
+	And The columns "group", "version", "license id", "license name" should be empty
 
 Scenario: Verify SPDX SBOM level license information on license export
-	# Test data https://drive.google.com/drive/folders/1Z6y6gMegutBeUuc_8LkpYxKeGz_KYG9H?usp=drive_link
-	# sbom - RHOSE-4.6.Z.json 
 	Given User is on SBOM license information file
-	Then name column should contain the value of name field from SBOM json
-	And namespace column should contain the value of documentNamespace field from SBOM json
-	And group column should be empty
-	And version column should be empty
-	And package reference column should be empty
-	And license column should be empty
-	And license name column should be empty
-	And license expression column should contain the whole value from licenseDeclared field in a single row for the packages entry of the SBOM
-	And alternate package reference column should contain the value of packages.externalRefs.referenceLocator field for cpe referenceType from SBOM json
+	Then "name" column should match "name" from SBOM
+	And "namespace" column should match "documentNamespace" from SBOM
+	And "license expression" column should match the whole value from "packages.licenseDeclared" in a single row of the SBOM information under packages section
+	And "alternate package reference" column should contain the value of "packages.externalRefs.referenceLocator" field for cpe "packages.externalRefs.referenceType" from SBOM json
+	And The columns "group", "version", "package reference", "license id", "license name" should be empty
 
 Scenario: Verify the contents on SPDX SBOM license reference CSV file
 	Given User is on license reference file
