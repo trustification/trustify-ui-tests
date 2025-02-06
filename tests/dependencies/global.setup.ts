@@ -1,15 +1,12 @@
 import path from "path";
-import { expect, test } from "@playwright/test";
+import { expect, Page, test } from "@playwright/test";
 
 test.describe("Ingest initial data", () => {
   test("SBOMs", async ({ page, baseURL }) => {
     await page.goto(baseURL!);
     await page.getByRole("link", { name: "Upload" }).click();
-    await page.getByRole("tab", { name: "SBOM" }).click();
 
-    // Choose files
-    test.setTimeout(120_000);
-    const files = [
+    const sbom_files = [
       "quarkus-bom-2.13.8.Final-redhat-00004.json.bz2",
       "ubi8_ubi-micro-8.8-7.1696517612.json.bz2",
       "ubi8-8.8-1067.json.bz2",
@@ -18,29 +15,7 @@ test.describe("Ingest initial data", () => {
       "ubi9-minimal-9.3-1361.json.bz2",
     ];
 
-    const fileChooserPromise = page.waitForEvent("filechooser");
-    await page.getByRole("button", { name: "Upload", exact: true }).click();
-    const fileChooser = await fileChooserPromise;
-    await fileChooser.setFiles(
-      files.map((e) => path.join(__dirname, `../fixtures/sbom/${e}`))
-    );
-
-    // Assert
-    await expect(
-      page.locator(".pf-v5-c-expandable-section__toggle-text")
-    ).toContainText(`${files.length} of ${files.length} files uploaded`, {
-      timeout: 60_000,
-    });
-  });
-
-  test("Advisories", async ({ page, baseURL }) => {
-    await page.goto(baseURL!);
-    await page.getByRole("link", { name: "Upload" }).click();
-    await page.getByRole("tab", { name: "Advisory" }).click();
-
-    // Choose files
-    test.setTimeout(120_000);
-    const files = [
+    const advisory_files = [
       "cve-2022-45787.json.bz2",
       "cve-2023-20861.json.bz2",
       "cve-2023-2974.json.bz2",
@@ -72,18 +47,45 @@ test.describe("Ingest initial data", () => {
       "cve-2023-28867.json.bz2",
     ];
 
-    const fileChooserPromise = page.waitForEvent("filechooser");
-    await page.getByRole("button", { name: "Upload", exact: true }).click();
-    const fileChooser = await fileChooserPromise;
-    await fileChooser.setFiles(
-      files.map((e) => path.join(__dirname, `../fixtures/csaf/${e}`))
-    );
-
-    // Assert
-    await expect(
-      page.locator(".pf-v5-c-expandable-section__toggle-text")
-    ).toContainText(`${files.length} of ${files.length} files uploaded`, {
-      timeout: 60_000,
-    });
+    await uploadSboms(page, sbom_files);
+    await uploadAdvisories(page, advisory_files);
   });
 });
+
+const uploadSboms = async (page: Page, files: string[]) => {
+  await page.getByRole("tab", { name: "SBOM" }).click();
+
+  const fileChooserPromise = page.waitForEvent("filechooser");
+  await page.getByRole("button", { name: "Upload", exact: true }).click();
+  const fileChooser = await fileChooserPromise;
+  await fileChooser.setFiles(
+    files.map((e) => path.join(__dirname, `../fixtures/sbom/${e}`))
+  );
+
+  await expect(
+    page.locator(
+      "#upload-sbom-tab-content .pf-v5-c-expandable-section__toggle-text"
+    )
+  ).toContainText(`${files.length} of ${files.length} files uploaded`, {
+    timeout: 60_000,
+  });
+};
+
+const uploadAdvisories = async (page: Page, files: string[]) => {
+  await page.getByRole("tab", { name: "Advisory" }).click();
+
+  const fileChooserPromise = page.waitForEvent("filechooser");
+  await page.getByRole("button", { name: "Upload", exact: true }).click();
+  const fileChooser = await fileChooserPromise;
+  await fileChooser.setFiles(
+    files.map((e) => path.join(__dirname, `../fixtures/csaf/${e}`))
+  );
+
+  await expect(
+    page.locator(
+      "#upload-advisory-tab-content .pf-v5-c-expandable-section__toggle-text"
+    )
+  ).toContainText(`${files.length} of ${files.length} files uploaded`, {
+    timeout: 60_000,
+  });
+};

@@ -5,16 +5,18 @@
   "main": "index.js",
   "scripts": {
     "codegen": "npx playwright codegen http://localhost:8080/",
-    "test": "npx playwright test",
-    "check": "prettier --check './**/*.{ts,js,json}'",
-    "format": "prettier --write './**/*.{ts,js,json}'"
+    "test": "npx bddgen && npx playwright test",
+    "test:trace": "npx bddgen && npx playwright test --trace on",
+    "test:host": "npx bddgen && npx playwright test --ui-host 127.0.0.1",
+    "format:check": "prettier --check './**/*.{ts,js,json}'",
+    "format:fix": "prettier --write './**/*.{ts,js,json}'"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.45.3",
     "@types/node": "^22.0.2",
+    "playwright-bdd": "^8.0.1",
     "prettier": "^3.3.3"
   }
 }
