@@ -47,6 +47,7 @@ test.describe("Ingest initial data", () => {
       "cve-2023-28867.json.bz2",
     ];
 
+    test.setTimeout(120_000);
     await uploadSboms(page, sbom_files);
     await uploadAdvisories(page, advisory_files);
   });
