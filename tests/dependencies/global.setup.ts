@@ -47,6 +47,7 @@ test.describe("Ingest initial data", () => {
       "cve-2023-28867.json.bz2",
     ];
 
+    test.setTimeout(120_000);
     await uploadSboms(page, sbom_files);
     await uploadAdvisories(page, advisory_files);
   });
@@ -66,9 +67,7 @@ const uploadSboms = async (page: Page, files: string[]) => {
     page.locator(
       "#upload-sbom-tab-content .pf-v5-c-expandable-section__toggle-text"
     )
-  ).toContainText(`${files.length} of ${files.length} files uploaded`, {
-    timeout: 120_000,
-  });
+  ).toContainText(`${files.length} of ${files.length} files uploaded`);
 };
 
 const uploadAdvisories = async (page: Page, files: string[]) => {
@@ -85,7 +84,5 @@ const uploadAdvisories = async (page: Page, files: string[]) => {
     page.locator(
       "#upload-advisory-tab-content .pf-v5-c-expandable-section__toggle-text"
     )
-  ).toContainText(`${files.length} of ${files.length} files uploaded`, {
-    timeout: 120_000,
-  });
+  ).toContainText(`${files.length} of ${files.length} files uploaded`);
 };
