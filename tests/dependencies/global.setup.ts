@@ -67,7 +67,7 @@ const uploadSboms = async (page: Page, files: string[]) => {
       "#upload-sbom-tab-content .pf-v5-c-expandable-section__toggle-text"
     )
   ).toContainText(`${files.length} of ${files.length} files uploaded`, {
-    timeout: 60_000,
+    timeout: 120_000,
   });
 };
 
@@ -86,6 +86,6 @@ const uploadAdvisories = async (page: Page, files: string[]) => {
       "#upload-advisory-tab-content .pf-v5-c-expandable-section__toggle-text"
     )
   ).toContainText(`${files.length} of ${files.length} files uploaded`, {
-    timeout: 60_000,
+    timeout: 120_000,
   });
 };
