@@ -33,10 +33,12 @@ npm run test
 
 ## Environment Variables
 
-| Variable              | Default Value         | Description                              |
-| --------------------- | --------------------- | ---------------------------------------- |
-| TRUSTIFY_URL          | http://localhost:8080 | The UI URL                               |
-| TRUSTIFY_AUTH_ENABLED | false                 | Whether or not auth is enabled in the UI |
+| Variable               | Default Value         | Description                              |
+| ---------------------- | --------------------- | ---------------------------------------- |
+| TRUSTIFY_URL           | http://localhost:8080 | The UI URL                               |
+| TRUSTIFY_AUTH_ENABLED  | false                 | Whether or not auth is enabled in the UI |
+| TRUSTIFY_AUTH_USER     | admin                 | User name to be used when authenticating |
+| TRUSTIFY_AUTH_PASSWORD | admin                 | Password to be used when authenticating  |
 
 ## Available commands
 

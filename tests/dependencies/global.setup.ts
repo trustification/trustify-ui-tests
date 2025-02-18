@@ -1,8 +1,11 @@
 import path from "path";
 import { expect, Page, test } from "@playwright/test";
+import { login } from "../helpers/Auth";
 
 test.describe("Ingest initial data", () => {
   test("SBOMs", async ({ page, baseURL }) => {
+    await login(page);
+
     await page.goto(baseURL!);
     await page.getByRole("link", { name: "Upload" }).click();
 
