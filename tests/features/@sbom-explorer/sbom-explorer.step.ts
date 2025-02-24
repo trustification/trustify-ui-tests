@@ -16,7 +16,7 @@ Given(
     await page.getByPlaceholder("Search").fill(sbomName);
     await page.getByPlaceholder("Search").press("Enter");
 
-    await page.getByRole("link", { name: sbomName }).click();
+    await page.getByRole("link", { name: sbomName, exact: true }).click();
   }
 );
 
