@@ -36,12 +36,12 @@ Scenario: User Downloads license information for SPDX SBOM from SBOM Explorer pa
 Scenario: Verify the files on downloaded SPDX SBOM license ZIP
 	Given User has Downloaded the License information for SPDX SBOM
 	When User extracts the Downloaded license ZIP file
-	Then Extracted files should contain two CSVs, one for Package License combination and another one for License reference
+	Then Extracted files should contain two CSVs, one for Package license information and another one for License reference
 
 Scenario: Verify the headers on SPDX SBOM package License CSV file
 	Given User extracted the SPDX SBOM license compressed file
-	When User Opens the package license combination file
-	Then The file should have the following headers - name, namespace, group, version, package reference, license, license name and alternate package reference
+	When User Opens the package license information file
+	Then The file should have the following headers - name, namespace, group, version, package reference, license id, license name, license expression and alternate package reference
 
 Scenario: Verify the headers on SPDX SBOM License reference CSV file
 	Given User extracted the SPDX SBOM license compressed file
@@ -49,28 +49,43 @@ Scenario: Verify the headers on SPDX SBOM License reference CSV file
 	Then The file should have the following headers - licenseId, name, extracted text and comment
 
 Scenario: Verify the license information for a package with single license
-	Given User is on package license combination file
+	Given User is on SBOM license information file
 	When User selects a package with Single license information
-	Then name column should contain the value of name field from SBOM json
-	And namespace column should contain the value of documentNamespace field from SBOM json
-	And group column should be empty
-	And version column should be empty
-	And package reference column should contain the value of packages.externalRefs.referenceLocator field for purl referenceType from SBOM json
-	And license column should contain the value of packages.licenseDeclared field from SBOM json
-	And license name column should be populated in reference to license reference CSV file
-	And alternate package reference column should contain the arrays of values of packages.externalRefs.referenceLocator field for referenceType other than purl
+	Then "name" column should match "name" from SBOM
+	And "namespace" column should match "documentNamespace" from SBOM
+	And "package reference" column should match "packages.externalRefs.referenceLocator" of "packages.externalRefs.referenceType" type purl from SBOM
+	And "license expression" column should match "packages.licenseDeclared" from SBOM
+	And The columns "group", "version", "license id", "license name", "alternate package reference" should be empty
 
-Scenario: Verify the license information for a package with multiple licenses
-	Given User is on package license combination file
-	When User selects a package with multiple license information
-	Then Package should have Rows equivalent to number of licenses
-	And All the package rows should be loaded with identical values for the columns name, namespace, group, version, package
-	And License column should be loaded with the unique licenses of the package from SBOM json
+Scenario: Verify the license information for a package with single license with alternate package reference referenceLocator
+	Given User is on SBOM license information file
+	When User selects a package with Single license information
+	Then "name" column should match "name" from SBOM
+	And "namespace" column should match "documentNamespace" from SBOM
+	And "package reference" column should match "packages.externalRefs.referenceLocator" of "packages.externalRefs.referenceType" purl from SBOM
+	And "license expression" column should match "packages.licenseDeclared" from SBOM
+	And "alternate package reference" column should match "packages.externalRefs.referenceLocator" of "packages.externalRefs.referenceType" type cpe from SBOM json
+	And The columns "group", "version", "license id", "license name" should be empty
+
+Scenario: Verify the license information for a package with multiple licenses with alternate package reference referenceLocator
+	Given User is on SBOM license information file
+	When User selects a package with Single license information
+	Then "name" column should match "name" from SBOM
+	And "namespace" column should match "documentNamespace" from SBOM
+	And "package reference" column should match "packages.externalRefs.referenceLocator" of "packages.externalRefs.referenceType" purl from SBOM
+	And "license expression" column should match the whole value of "packages.licenseDeclared" from SBOM in a single row
+	And "alternate package reference" column should match "packages.externalRefs.referenceLocator" of "packages.externalRefs.referenceType" type cpe from SBOM json
+	And The columns "group", "version", "license id", "license name" should be empty
+
+Scenario: Verify SPDX SBOM level license information on license export
+	Given User is on SBOM license information file
+	Then "name" column should match "name" from SBOM
+	And "namespace" column should match "documentNamespace" from SBOM
+	And "license expression" column should match the whole value from "packages.licenseDeclared" in a single row of the SBOM information under packages section
+	And "alternate package reference" column should contain the value of "packages.externalRefs.referenceLocator" field for cpe "packages.externalRefs.referenceType" from SBOM json
+	And The columns "group", "version", "package reference", "license id", "license name" should be empty
 
 Scenario: Verify the contents on SPDX SBOM license reference CSV file
 	Given User is on license reference file
 	When User selects a license from the list of licenses
-	Then The unique values of licenceDeclared field from SPDX SBOM file should be listed
-	And licenseId column should be loaded with unique license id
-	And license column should be loaded with the name of the license
-	And extracted text and comment columns should be loaded in reference to the template file
+	Then Values hasExtractedLicensingInfos section of the SPDX SBOM json should be listed under the Reference CSV file
