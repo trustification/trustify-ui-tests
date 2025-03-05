@@ -11,7 +11,7 @@ export const login = async (page: Page) => {
 
     await page.fill('input[name="username"]:visible', userName);
     await page.fill('input[name="password"]:visible', userPassword);
-    await page.click('input[type="submit"]:visible');
+    await page.keyboard.press("Enter");
 
     await page.waitForSelector("text=Your Dashboard"); // Ensure login was successful
   }
