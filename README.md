@@ -33,13 +33,15 @@ npm run test
 
 ## Environment Variables
 
-| Variable               | Default Value         | Description                                 |
-| ---------------------- | --------------------- | ------------------------------------------- |
-| TRUSTIFY_URL           | http://localhost:8080 | The UI URL                                  |
-| TRUSTIFY_AUTH_ENABLED  | false                 | Whether or not auth is enabled in the UI    |
-| TRUSTIFY_AUTH_USER     | admin                 | User name to be used when authenticating    |
-| TRUSTIFY_AUTH_PASSWORD | admin                 | Password to be used when authenticating     |
-| SKIP_INGESTION         | false                 | If to skip initial data ingestion / cleanup |
+| Variable                 | Default Value         | Description                                 |
+| ------------------------ | --------------------- | ------------------------------------------- |
+| TRUSTIFY_URL             | http://localhost:8080 | The UI URL                                  |
+| TRUSTIFY_AUTH_ENABLED    | false                 | Whether or not auth is enabled in the UI    |
+| TRUSTIFY_AUTH_USER       | admin                 | User name to be used when authenticating    |
+| TRUSTIFY_AUTH_PASSWORD   | admin                 | Password to be used when authenticating     |
+| TRUSTIFY_AUTH_CLI_ID     | cli                   | oidc cli client ID (for API tests)          |
+| TRUSTIFY_AUTH_CLI_SECRET |                       | oidc cli client secret (for API tests)      |
+| SKIP_INGESTION           | false                 | If to skip initial data ingestion / cleanup |
 
 ## Available commands
 
