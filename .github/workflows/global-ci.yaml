@@ -17,6 +17,6 @@ jobs:
     uses: trustification/trustify-ci/.github/workflows/global-ci.yml@main
     with:
       operator_bundle: "ghcr.io/trustification/trustify-operator-bundle:latest"
-      run_api_tests: false
+      run_api_tests: true
       run_ui_tests: true
       tests_ref: ${{ github.event.number && format('refs/pull/{0}/merge', github.event.number) || '' }}
