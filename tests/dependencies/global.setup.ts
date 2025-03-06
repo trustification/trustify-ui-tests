@@ -3,6 +3,11 @@ import { expect, Page, test } from "@playwright/test";
 import { login } from "../helpers/Auth";
 
 test.describe("Ingest initial data", () => {
+  test.skip(
+    process.env.SKIP_INGESTION === "true",
+    "Skipping global.setup data ingestion"
+  );
+
   test("SBOMs", async ({ page, baseURL }) => {
     await login(page);
 
