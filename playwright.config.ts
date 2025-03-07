@@ -2,8 +2,8 @@ import { defineConfig, devices } from "@playwright/test";
 import { defineBddConfig } from "playwright-bdd";
 
 const testDir = defineBddConfig({
-  features: ["tests/features/@*/*.feature"],
-  steps: ["tests/features/**/*.step.ts", "tests/steps/**/*.ts"],
+  features: ["tests/**/features/@*/*.feature"],
+  steps: ["tests/**/features/**/*.step.ts", "tests/**/steps/**/*.ts"],
 });
 
 /**
@@ -73,7 +73,7 @@ export default defineConfig({
 
     {
       name: "setup-data",
-      testDir: "./tests/dependencies",
+      testDir: "./tests/ui/dependencies",
       testMatch: /global\.setup\.ts/,
       teardown: "cleanup-data",
       use: {
@@ -82,11 +82,21 @@ export default defineConfig({
     },
     {
       name: "cleanup-data",
-      testDir: "./tests/dependencies",
+      testDir: "./tests/ui/dependencies",
       testMatch: /global\.teardown\.ts/,
       use: {
         ...DESKTOP_CONFIG,
       },
+    },
+
+    {
+      name: "api",
+      testDir: "./tests/api/features",
+      testMatch: /.*\.ts/,
+      use: {
+        baseURL: process.env.TRUSTIFY_URL,
+      },
+      // dependencies: ["setup-data"],
     },
 
     /* Test against mobile viewports. */

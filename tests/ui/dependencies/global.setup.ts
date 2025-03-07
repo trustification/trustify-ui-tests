@@ -68,7 +68,7 @@ const uploadSboms = async (page: Page, files: string[]) => {
   await page.getByRole("button", { name: "Upload", exact: true }).click();
   const fileChooser = await fileChooserPromise;
   await fileChooser.setFiles(
-    files.map((e) => path.join(__dirname, `../fixtures/sbom/${e}`))
+    files.map((e) => path.join(__dirname, `../../common/assets/sbom/${e}`))
   );
 
   await expect(
@@ -87,7 +87,7 @@ const uploadAdvisories = async (page: Page, files: string[]) => {
   await page.getByRole("button", { name: "Upload", exact: true }).click();
   const fileChooser = await fileChooserPromise;
   await fileChooser.setFiles(
-    files.map((e) => path.join(__dirname, `../fixtures/csaf/${e}`))
+    files.map((e) => path.join(__dirname, `../../common/assets/csaf/${e}`))
   );
 
   await expect(
