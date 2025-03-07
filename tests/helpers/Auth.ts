@@ -1,5 +1,8 @@
 import { Page, APIRequestContext, expect } from "@playwright/test";
 
+// minimal remaining validity before acquiring new token
+const TOKEN_MIN_VALIDITY = 3000; // msec
+
 export const login = async (page: Page) => {
   let shouldLogin = process.env.TRUSTIFY_AUTH_ENABLED;
 
@@ -57,8 +60,18 @@ export const get_token = async (request: APIRequestContext) => {
   }
 
   if (process.env.__TOKEN) {
-    // FIXME: verify expiration and refresh if needed
-    return process.env.__TOKEN;
+    // console.log('Expiring at:', Number(process.env.__TOKEN_EXPIRES_AT));
+    // console.log('Now + min-valid:', Date.now() + TOKEN_MIN_VALIDITY);
+    // console.log('Still valid:', (Date.now() + TOKEN_MIN_VALIDITY) < Number(process.env.__TOKEN_EXPIRES_AT));
+
+    if (
+      Date.now() + TOKEN_MIN_VALIDITY <
+      Number(process.env.__TOKEN_EXPIRES_AT)
+    ) {
+      return process.env.__TOKEN;
+    } else {
+      // console.log('Auth: need to refresh token');
+    }
   }
 
   const clientId = process.env.TRUSTIFY_AUTH_CLI_ID ?? "cli";
@@ -86,10 +99,10 @@ export const get_token = async (request: APIRequestContext) => {
   // multiply by thousand to get milisec from sec
   // record future Date when it should expire
   // (we will want auto-refresh)
-  const expires_at = Date.now() + (Number(tokenJson.expires_in) - 1) * 1000;
+  const expires_at = Date.now() + Number(tokenJson.expires_in) * 1000;
 
   process.env.__TOKEN = token;
-  process.env.__TOKEN_EXPIRES_AS = expires_at;
+  process.env.__TOKEN_EXPIRES_AT = expires_at;
 
   console.log(`got fresh token: ${token.slice(0, 5)}...${token.slice(-5)}`); // FIXME: DEBUG
 

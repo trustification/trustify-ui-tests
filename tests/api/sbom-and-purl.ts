@@ -3,10 +3,8 @@
 import { expect } from "@playwright/test";
 import { api_test as test } from "../helpers/API";
 
-
 // currently our global setup uploads just 6 sboms - so we cannot assert 10+
 const MIN_SBOMS_PRESENT = 6;
-
 
 test("list first 10 sboms by name", async ({ request }) => {
   const sbomResp = await request.get(
@@ -27,7 +25,6 @@ test("list first 10 sboms by name", async ({ request }) => {
     );
   });
 });
-
 
 test("purl by alias", async ({ request }) => {
   const resp = await request.get("/api/v2/purl?q=openssl");

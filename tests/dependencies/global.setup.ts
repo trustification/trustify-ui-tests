@@ -62,7 +62,10 @@ setup.describe("Ingest initial data", () => {
 });
 
 setup.describe("Initialize API token", () => {
-  setup.skip(process.env.TRUSTIFY_AUTH_ENABLED !== "true", "Skip token when auth is disabled");
+  setup.skip(
+    process.env.TRUSTIFY_AUTH_ENABLED !== "true",
+    "Skip token when auth is disabled"
+  );
 
   setup("API token", async ({ request }) => {
     // this is done in setup
