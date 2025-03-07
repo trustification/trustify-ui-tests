@@ -1,6 +1,6 @@
 import path from "path";
 import { expect, Page, test as setup } from "@playwright/test";
-import { login } from "../helpers/Auth";
+import { login, get_token } from "../helpers/Auth";
 
 setup.describe("Ingest initial data", () => {
   setup.skip(
@@ -58,6 +58,17 @@ setup.describe("Ingest initial data", () => {
     setup.setTimeout(120_000);
     await uploadSboms(page, sbom_files);
     await uploadAdvisories(page, advisory_files);
+  });
+});
+
+setup.describe("Initialize API token", () => {
+  setup.skip(process.env.TRUSTIFY_AUTH_ENABLED !== "true", "Skip token when auth is disabled");
+
+  setup("API token", async ({ request }) => {
+    // this is done in setup
+    // to discover and precache token endpoints for rest of the tests
+    let token = await get_token(request);
+    console.log(`api token: ${token.slice(0, 5)}...${token.slice(-5)}`);
   });
 });
 

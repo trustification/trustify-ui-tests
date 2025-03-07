@@ -3,23 +3,10 @@
 import { expect } from "@playwright/test";
 import { api_test as test } from "../helpers/API";
 
-// FIXME: drop Auth helper here after moving beforeAll token initialization
-import { get_token, get_token_header } from "../helpers/Auth";
-// ---------
 
 // currently our global setup uploads just 6 sboms - so we cannot assert 10+
 const MIN_SBOMS_PRESENT = 6;
 
-// FIXME: possibly better to have this invoked just once at start from global-setup
-test.beforeAll(async ({ playwright }) => {
-  console.log("hello"); // FIXME: DEBUG
-
-  let request = await playwright.request.newContext();
-  let token = await get_token(request);
-  request.dispose();
-
-  console.log(`token before test: ${token.slice(0, 5)}...${token.slice(-5)}`); // FIXME: DEBUG
-});
 
 test("list first 10 sboms by name", async ({ request }) => {
   const sbomResp = await request.get(
@@ -40,6 +27,7 @@ test("list first 10 sboms by name", async ({ request }) => {
     );
   });
 });
+
 
 test("purl by alias", async ({ request }) => {
   const resp = await request.get("/api/v2/purl?q=openssl");
