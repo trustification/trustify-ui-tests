@@ -72,6 +72,16 @@ export default defineConfig({
     },
 
     {
+      name: "api",
+      testDir: "./tests/api",
+      testMatch: /.*\.ts/,
+      use: {
+        baseURL: process.env.TRUSTIFY_URL + "/api",
+      },
+      dependencies: ["setup-data"],
+    },
+
+    {
       name: "setup-data",
       testDir: "./tests/dependencies",
       testMatch: /global\.setup\.ts/,

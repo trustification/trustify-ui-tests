@@ -1,14 +1,14 @@
 import path from "path";
-import { expect, Page, test } from "@playwright/test";
-import { login } from "../helpers/Auth";
+import { expect, Page, test as setup } from "@playwright/test";
+import { login, get_token } from "../helpers/Auth";
 
-test.describe("Ingest initial data", () => {
-  test.skip(
+setup.describe("Ingest initial data", () => {
+  setup.skip(
     process.env.SKIP_INGESTION === "true",
     "Skipping global.setup data ingestion"
   );
 
-  test("SBOMs", async ({ page, baseURL }) => {
+  setup("SBOMs", async ({ page, baseURL }) => {
     await login(page);
 
     await page.goto(baseURL!);
@@ -55,9 +55,23 @@ test.describe("Ingest initial data", () => {
       "cve-2023-28867.json.bz2",
     ];
 
-    test.setTimeout(120_000);
+    setup.setTimeout(120_000);
     await uploadSboms(page, sbom_files);
     await uploadAdvisories(page, advisory_files);
+  });
+});
+
+setup.describe("Initialize API token", () => {
+  setup.skip(
+    process.env.TRUSTIFY_AUTH_ENABLED !== "true",
+    "Skip token when auth is disabled"
+  );
+
+  setup("API token", async ({ request }) => {
+    // this is done in setup
+    // to discover and precache token endpoints for rest of the tests
+    let token = await get_token(request);
+    console.log(`api token: ${token.slice(0, 5)}...${token.slice(-5)}`);
   });
 });
 
