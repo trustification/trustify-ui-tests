@@ -91,7 +91,7 @@ export const get_token = async (request: APIRequestContext) => {
   process.env.__TOKEN = token;
   process.env.__TOKEN_EXPIRES_AS = expires_at;
 
-  console.log("got fresh token: " + token); // FIXME: DEBUG
+  console.log(`got fresh token: ${token.slice(0, 5)}...${token.slice(-5)}`); // FIXME: DEBUG
 
   return token;
 };

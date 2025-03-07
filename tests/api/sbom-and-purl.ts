@@ -1,7 +1,11 @@
 /* Example of testing API with SBOM and PURL endpoints */
 
-import { test, expect } from "@playwright/test";
+import { expect } from "@playwright/test";
+import { api_test as test } from "../helpers/API";
+
+// FIXME: drop Auth helper here after moving beforeAll token initialization
 import { get_token, get_token_header } from "../helpers/Auth";
+// ---------
 
 // currently our global setup uploads just 6 sboms - so we cannot assert 10+
 const MIN_SBOMS_PRESENT = 6;
@@ -14,26 +18,14 @@ test.beforeAll(async ({ playwright }) => {
   let token = await get_token(request);
   request.dispose();
 
-  console.log("token before test: " + token); // FIXME: DEBUG
-});
-
-test("oidc", async ({ request }) => {
-  let token = await get_token(request);
-  console.log("token in test: " + token);
+  console.log(`token before test: ${token.slice(0, 5)}...${token.slice(-5)}`); // FIXME: DEBUG
 });
 
 test("list first 10 sboms by name", async ({ request }) => {
-  // FIXME: easiest way for obtaining token here?
-  //        - seems proper way may be using extra Fixture e.g. https://stackoverflow.com/a/72294948 ?
-  //        - or bit worse but also working to have test.beforeEach to set-refresh token?
-  //          but for that we still would need explicitely mention/refer to it with each request call?
-  //        - for this first example going with explicit call from inside test
   const sbomResp = await request.get(
-    "/api/v2/sbom?limit=10&offset=0&sort=name:asc",
-    {
-      headers: await get_token_header(request),
-    }
+    "/api/v2/sbom?limit=10&offset=0&sort=name:asc"
   );
+
   expect(sbomResp).toBeOK();
   const sbomJson = await sbomResp.json();
   expect(sbomJson).toHaveProperty("items");
@@ -50,10 +42,8 @@ test("list first 10 sboms by name", async ({ request }) => {
 });
 
 test("purl by alias", async ({ request }) => {
-  // FIXME: what is easiest way for obtaining token here?
-  const resp = await request.get("/api/v2/purl?q=openssl", {
-    headers: await get_token_header(request),
-  });
+  const resp = await request.get("/api/v2/purl?q=openssl");
+
   expect(resp).toBeOK();
   const purls = await resp.json();
   expect(purls).toHaveProperty("items");
@@ -99,10 +89,6 @@ test("purl by alias", async ({ request }) => {
     ])
   );
 
-  //  expect(sbom).toHaveProperty('ingested');
-  //  // FIXME: DEBUG
-  //  console.log(`SBOM ${sbom['name']} with ${sbom['number_of_packages']} at ${sbom['ingested']}`);
-  //});
   // FIXME: DEBUG
-  console.log(purls.items);
+  console.log(purls.items.slice(0, 2));
 });
