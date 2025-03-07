@@ -1,14 +1,14 @@
 import path from "path";
-import { expect, Page, test } from "@playwright/test";
+import { expect, Page, test as setup } from "@playwright/test";
 import { login } from "../helpers/Auth";
 
-test.describe("Ingest initial data", () => {
-  test.skip(
+setup.describe("Ingest initial data", () => {
+  setup.skip(
     process.env.SKIP_INGESTION === "true",
     "Skipping global.setup data ingestion"
   );
 
-  test("SBOMs", async ({ page, baseURL }) => {
+  setup("SBOMs", async ({ page, baseURL }) => {
     await login(page);
 
     await page.goto(baseURL!);
@@ -55,7 +55,7 @@ test.describe("Ingest initial data", () => {
       "cve-2023-28867.json.bz2",
     ];
 
-    test.setTimeout(120_000);
+    setup.setTimeout(120_000);
     await uploadSboms(page, sbom_files);
     await uploadAdvisories(page, advisory_files);
   });
