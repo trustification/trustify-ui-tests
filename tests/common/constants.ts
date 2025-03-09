@@ -1,3 +1,22 @@
+const LOG_LEVELS = { debug: 4, info: 3, warn: 2, error: 1, none: 0 };
+const CURRENT_LOG_LEVEL =
+  LOG_LEVELS[process.env.LOG_LEVEL ?? "info"] || LOG_LEVELS.info;
+
+export const logger = {
+  debug: (...args: unknown[]) => {
+    CURRENT_LOG_LEVEL >= LOG_LEVELS.debug && console.log("[DEBUG]", ...args);
+  },
+  info: (...args: unknown[]) => {
+    CURRENT_LOG_LEVEL >= LOG_LEVELS.info && console.log("[INFO]", ...args);
+  },
+  warn: (...args: unknown[]) => {
+    CURRENT_LOG_LEVEL >= LOG_LEVELS.warn && console.warn("[WARN]", ...args);
+  },
+  error: (...args: unknown[]) => {
+    CURRENT_LOG_LEVEL >= LOG_LEVELS.error && console.error("[ERROR]", ...args);
+  },
+};
+
 export const SBOM_FILES = [
   "quarkus-bom-2.13.8.Final-redhat-00004.json.bz2",
   "ubi8_ubi-micro-8.8-7.1696517612.json.bz2",

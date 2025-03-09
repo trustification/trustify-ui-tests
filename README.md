@@ -27,6 +27,12 @@ npm run test
 
 ## Environment Variables
 
+General:
+
+| Variable  | Default Value | Possible values                | Description |
+| --------- | ------------- | ------------------------------ | ----------- |
+| LOG_LEVEL | info          | debug, info, warn, error, none | Print log   |
+
 For UI tests:
 
 | Variable               | Default Value         | Description                                 |

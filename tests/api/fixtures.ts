@@ -2,6 +2,8 @@ import { Client, createClient } from "@hey-api/client-axios";
 import { test as base } from "@playwright/test";
 import axios, { AxiosInstance } from "axios";
 
+import { logger } from "../common/constants";
+
 let access_token = "";
 
 type TokenResponse = {
@@ -40,6 +42,7 @@ const initAxiosInstance = async (axiosInstance: AxiosInstance) => {
   axiosInstance.interceptors.request.use(
     (config) => {
       config.headers.Authorization = `Bearer ${access_token}`;
+      logger.debug(config);
       return config;
     },
     (error) => {
