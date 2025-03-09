@@ -1,5 +1,5 @@
 import { Client, createClient } from "@hey-api/client-axios";
-import { test as base } from "@playwright/test";
+import { test as base, expect } from "@playwright/test";
 import axios, { AxiosInstance } from "axios";
 
 import { logger } from "../common/constants";
@@ -13,12 +13,27 @@ type TokenResponse = {
   scope: string;
 };
 
-const getToken = async () => {
+const getToken = async (baseURL?: string) => {
+  let authUrl: string | null = null;
+  if (process.env.TRUSTIFY_AUTH_URL) {
+    authUrl = process.env.TRUSTIFY_AUTH_URL;
+  } else if (baseURL) {
+    authUrl = await discoverTokenEndpoint(axios, baseURL);
+  }
+
+  expect(
+    authUrl,
+    "TRUSTIFY_AUTH_URL was not set and couldn't be discovered"
+  ).not.toBeNull();
+
+  // Discover token endpoint
   const oidcConfigResponse = await axios.get(
-    `${process.env.TRUSTIFY_AUTH_URL ?? "http://localhost:9090/realms/trustd"}/.well-known/openid-configuration`
+    `${authUrl}/.well-known/openid-configuration`
   );
   const tokenServiceURL = oidcConfigResponse.data["token_endpoint"];
+  expect(tokenServiceURL).not.toBeUndefined();
 
+  // Request token
   const data = new URLSearchParams();
   data.append("grant_type", "client_credentials");
   data.append("client_id", process.env.TRUSTIFY_AUTH_CLIENT_ID ?? "cli");
@@ -34,8 +49,31 @@ const getToken = async () => {
   });
 };
 
-const initAxiosInstance = async (axiosInstance: AxiosInstance) => {
-  const { data: tokenResponse } = await getToken();
+export const discoverTokenEndpoint = async (
+  axios: AxiosInstance,
+  baseURL: string
+) => {
+  const indexPage = await axios.get<string>(baseURL, {
+    maxRedirects: 0,
+  });
+
+  const matcher = indexPage.data.match(/window._env="([^"]+)"/);
+  const serverConfig = matcher?.[1];
+  if (!serverConfig) {
+    return null;
+  }
+
+  const envInfo: Record<string, string> = JSON.parse(atob(serverConfig));
+  logger.debug("Discovered Auth Config", envInfo);
+
+  return envInfo["OIDC_SERVER_URL"] ?? null;
+};
+
+const initAxiosInstance = async (
+  axiosInstance: AxiosInstance,
+  baseURL?: string
+) => {
+  const { data: tokenResponse } = await getToken(baseURL);
   access_token = tokenResponse.access_token;
 
   // Intercept Requests
@@ -57,7 +95,7 @@ const initAxiosInstance = async (axiosInstance: AxiosInstance) => {
     },
     async (error) => {
       if (error.response && error.response.status === 401) {
-        const { data: refreshedTokenResponse } = await getToken();
+        const { data: refreshedTokenResponse } = await getToken(baseURL);
         access_token = refreshedTokenResponse.access_token;
 
         const retryCounter = error.config.retryCounter || 1;
@@ -94,7 +132,7 @@ export const test = base.extend<ApiClientFixture>({
     const axiosInstance = axios.create({ baseURL });
 
     if (process.env.TRUSTIFY_AUTH_ENABLED === "true") {
-      await initAxiosInstance(axiosInstance);
+      await initAxiosInstance(axiosInstance, baseURL);
     }
 
     await use(axiosInstance);
@@ -106,7 +144,7 @@ export const test = base.extend<ApiClientFixture>({
     });
 
     if (process.env.TRUSTIFY_AUTH_ENABLED === "true") {
-      await initAxiosInstance(client.instance);
+      await initAxiosInstance(client.instance, baseURL);
     }
 
     await use(client);

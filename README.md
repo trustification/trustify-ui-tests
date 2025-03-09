@@ -29,30 +29,29 @@ npm run test
 
 General:
 
-| Variable  | Default Value | Possible values                | Description |
-| --------- | ------------- | ------------------------------ | ----------- |
-| LOG_LEVEL | info          | debug, info, warn, error, none | Print log   |
+| Variable       | Default Value | Description                                     |
+| -------------- | ------------- | ----------------------------------------------- |
+| LOG_LEVEL      | info          | Possible values: debug, info, warn, error, none |
+| SKIP_INGESTION | false         | If to skip initial data ingestion / cleanup     |
 
 For UI tests:
 
-| Variable               | Default Value         | Description                                 |
-| ---------------------- | --------------------- | ------------------------------------------- |
-| TRUSTIFY_URL           | http://localhost:8080 | The UI URL                                  |
-| TRUSTIFY_AUTH_ENABLED  | false                 | Whether or not auth is enabled in the UI    |
-| TRUSTIFY_AUTH_USER     | admin                 | User name to be used when authenticating    |
-| TRUSTIFY_AUTH_PASSWORD | admin                 | Password to be used when authenticating     |
-| SKIP_INGESTION         | false                 | If to skip initial data ingestion / cleanup |
+| Variable               | Default Value         | Description                              |
+| ---------------------- | --------------------- | ---------------------------------------- |
+| TRUSTIFY_URL           | http://localhost:8080 | The UI URL                               |
+| TRUSTIFY_AUTH_ENABLED  | false                 | Whether or not auth is enabled in the UI |
+| TRUSTIFY_AUTH_USER     | admin                 | User name to be used when authenticating |
+| TRUSTIFY_AUTH_PASSWORD | admin                 | Password to be used when authenticating  |
 
 For API tests:
 
-| Variable                    | Default Value                       | Description                                 |
-| --------------------------- | ----------------------------------- | ------------------------------------------- |
-| TRUSTIFY_URL                | http://localhost:8080               | The UI URL                                  |
-| TRUSTIFY_AUTH_ENABLED       | false                               | Whether or not auth is enabled in the UI    |
-| TRUSTIFY_AUTH_URL           | http://localhost:9090/realms/trustd | User name to be used when authenticating    |
-| TRUSTIFY_AUTH_CLIENT_ID     | cli                                 | Password to be used when authenticating     |
-| TRUSTIFY_AUTH_CLIENT_SECRET | secret                              | Password to be used when authenticating     |
-| SKIP_INGESTION              | false                               | If to skip initial data ingestion / cleanup |
+| Variable                    | Default Value         | Description                                                                                                    |
+| --------------------------- | --------------------- | -------------------------------------------------------------------------------------------------------------- |
+| TRUSTIFY_URL                | http://localhost:8080 | The UI URL                                                                                                     |
+| TRUSTIFY_AUTH_ENABLED       | false                 | Whether or not auth is enabled in the UI                                                                       |
+| TRUSTIFY_AUTH_URL           |                       | OIDC Base URL E.g. http://localhost:9090/realms/trustd . If not set we will try to discover it from index.html |
+| TRUSTIFY_AUTH_CLIENT_ID     | cli                   | OIDC Client ID                                                                                                 |
+| TRUSTIFY_AUTH_CLIENT_SECRET | secret                | OIDC Client Secret                                                                                             |
 
 ## Available commands
 
