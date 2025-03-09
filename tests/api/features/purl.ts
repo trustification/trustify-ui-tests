@@ -1,71 +1,81 @@
+import { PurlService } from "../client";
 import { expect, test } from "../fixtures";
 
-import { PurlService } from "../client";
-import { client } from "../client-config";
-
-test("Purl by alias - vanilla", async ({ request, axios }) => {
-  const vanillaResponse = await axios.get("/api/v2/purl?q=openssl");
+test("Purl by alias - vanilla", async ({ axios }) => {
+  const vanillaResponse = await axios.get(
+    "/api/v2/purl?offset=0&limit=10&q=openssl"
+  );
 
   expect(vanillaResponse.data.items).toEqual(
     expect.arrayContaining([
-      {
+      expect.objectContaining({
         purl: "pkg:rpm/redhat/openssl-libs@3.0.7-24.el9?arch=aarch64",
-        base: {
+        base: expect.objectContaining({
           purl: "pkg:rpm/redhat/openssl-libs",
-        },
-        version: {
+        }),
+        version: expect.objectContaining({
           purl: "pkg:rpm/redhat/openssl-libs@3.0.7-24.el9",
           version: "3.0.7-24.el9",
-        },
-        qualifiers: { arch: "aarch64" },
-      },
-      {
+        }),
+        qualifiers: expect.objectContaining({
+          arch: "aarch64",
+        }),
+      }),
+      expect.objectContaining({
         purl: "pkg:rpm/redhat/openssl-libs@3.0.7-24.el9?arch=x86_64",
-        base: {
+        base: expect.objectContaining({
           purl: "pkg:rpm/redhat/openssl-libs",
-        },
-        version: {
+        }),
+        version: expect.objectContaining({
           purl: "pkg:rpm/redhat/openssl-libs@3.0.7-24.el9",
           version: "3.0.7-24.el9",
-        },
-        qualifiers: { arch: "x86_64" },
-      },
+        }),
+        qualifiers: expect.objectContaining({
+          arch: "x86_64",
+        }),
+      }),
     ])
   );
 });
 
-test("Purl by alias - openapi", async ({ request, axios }) => {
+test("Purl by alias - openapi", async ({ client }) => {
   const serviceResponse = await PurlService.listPurl({
     client,
     query: {
       q: "openssl",
+      offset: 0,
+      limit: 10,
     },
   });
 
   expect(serviceResponse.data?.items).toEqual(
     expect.arrayContaining([
-      {
+      expect.objectContaining({
         purl: "pkg:rpm/redhat/openssl-libs@3.0.7-24.el9?arch=aarch64",
-        base: {
+        base: expect.objectContaining({
           purl: "pkg:rpm/redhat/openssl-libs",
-        },
-        version: {
+        }),
+        version: expect.objectContaining({
           purl: "pkg:rpm/redhat/openssl-libs@3.0.7-24.el9",
           version: "3.0.7-24.el9",
-        },
-        qualifiers: { arch: "aarch64" },
-      },
-      {
+        }),
+        qualifiers: expect.objectContaining({
+          arch: "aarch64",
+        }),
+      }),
+      expect.objectContaining({
         purl: "pkg:rpm/redhat/openssl-libs@3.0.7-24.el9?arch=x86_64",
-        base: {
+        base: expect.objectContaining({
           purl: "pkg:rpm/redhat/openssl-libs",
-        },
-        version: {
+        }),
+        version: expect.objectContaining({
           purl: "pkg:rpm/redhat/openssl-libs@3.0.7-24.el9",
           version: "3.0.7-24.el9",
-        },
-        qualifiers: { arch: "x86_64" },
-      },
+        }),
+        qualifiers: expect.objectContaining({
+          arch: "x86_64",
+        }),
+      }),
     ])
   );
 });

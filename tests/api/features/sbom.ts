@@ -1,16 +1,19 @@
 import { expect, test } from "../fixtures";
 
 import { SbomService } from "../client";
-import { client } from "../client-config";
 
-test("List first 10 sboms by name - vanilla", async ({ request, axios }) => {
+test("List first 10 sboms by name - vanilla", async ({ axios }) => {
   const vanillaResponse = await axios.get(
     "/api/v2/sbom?limit=10&offset=0&sort=name:asc"
   );
-  expect(vanillaResponse.data).toEqual(expect.objectContaining({ total: 0 }));
+  expect(vanillaResponse.data).toEqual(
+    expect.objectContaining({
+      total: 6,
+    })
+  );
 });
 
-test("List first 10 sboms by name - openapi", async ({ request, axios }) => {
+test("List first 10 sboms by name - openapi", async ({ client }) => {
   const serviceResponse = await SbomService.listSboms({
     client,
     query: {
@@ -20,5 +23,9 @@ test("List first 10 sboms by name - openapi", async ({ request, axios }) => {
     },
   });
 
-  expect(serviceResponse.data).toEqual(expect.objectContaining({ total: 0 }));
+  expect(serviceResponse.data).toEqual(
+    expect.objectContaining({
+      total: 6,
+    })
+  );
 });

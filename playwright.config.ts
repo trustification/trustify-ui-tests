@@ -50,7 +50,7 @@ export default defineConfig({
         ...devices["Desktop Chrome"],
         ...DESKTOP_CONFIG,
       },
-      dependencies: ["setup-data"],
+      dependencies: ["setup-ui-data"],
     },
 
     {
@@ -59,7 +59,7 @@ export default defineConfig({
         ...devices["Desktop Firefox"],
         ...DESKTOP_CONFIG,
       },
-      dependencies: ["setup-data"],
+      dependencies: ["setup-ui-data"],
     },
 
     {
@@ -68,22 +68,22 @@ export default defineConfig({
         ...devices["Desktop Safari"],
         ...DESKTOP_CONFIG,
       },
-      dependencies: ["setup-data"],
+      dependencies: ["setup-ui-data"],
     },
 
     {
-      name: "setup-data",
+      name: "setup-ui-data",
       testDir: "./tests/ui/dependencies",
-      testMatch: /global\.setup\.ts/,
-      teardown: "cleanup-data",
+      testMatch: "*.setup.ts",
+      teardown: "cleanup-ui-data",
       use: {
         ...DESKTOP_CONFIG,
       },
     },
     {
-      name: "cleanup-data",
+      name: "cleanup-ui-data",
       testDir: "./tests/ui/dependencies",
-      testMatch: /global\.teardown\.ts/,
+      testMatch: "*.teardown.ts",
       use: {
         ...DESKTOP_CONFIG,
       },
@@ -96,7 +96,24 @@ export default defineConfig({
       use: {
         baseURL: process.env.TRUSTIFY_URL,
       },
-      // dependencies: ["setup-data"],
+      dependencies: ["setup-api-data"],
+    },
+    {
+      name: "setup-api-data",
+      testDir: "./tests/api/dependencies",
+      testMatch: "*.setup.ts",
+      teardown: "cleanup-api-data",
+      use: {
+        ...DESKTOP_CONFIG,
+      },
+    },
+    {
+      name: "cleanup-api-data",
+      testDir: "./tests/api/dependencies",
+      testMatch: "*.teardown.ts",
+      use: {
+        ...DESKTOP_CONFIG,
+      },
     },
 
     /* Test against mobile viewports. */
